@@ -13,11 +13,6 @@ const app = express();
 const connectDB = require('./db/connect');
 const authenticateUser = require('./middleware/authentication');
 
-//simple dummy get route
-app.get('/', (req, res) => {
-  res.send('Jobs API');
-});
-
 const authRouter = require('./routes/auth');
 const jobsRouter = require('./routes/jobs');
 
@@ -42,12 +37,12 @@ app.use('/api/v1/jobs', authenticateUser, jobsRouter);
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
-const port = process.env.PORT || 3000;
+const port = 3000;
 
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI);
-    app.listen(port, () =>
+    app.listen(process.env.PORT || 3000, () =>
       console.log(`Server is listening on port ${port}...`)
     );
   } catch (error) {
